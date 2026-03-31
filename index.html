@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Grace Mitchell — Product, Project & Grant Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue:       #5C7F96;
+  --blue-dark:  #3E5F74;
+  --blue-pale:  #D8E4EC;
+  --blue-faint: #EFF4F7;
+  --fuchsia:    #C4477A;
+  --fuchsia-pale: #F5E0EA;
+  --warm-white: #DCDAD5;
+  --bg:         #F5F3EE;
+  --bg-card:    #FFFFFF;
+  --text:       #1C1C1A;
+  --text-mid:   #4A4A46;
+  --text-muted: #888880;
+  --border:     rgba(0,0,0,.08);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',system-ui,sans-serif;
+  font-weight:400;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+  font-size:16px;
+}
+
+/* ── NAV ── */
+nav {
+  position:sticky;top:0;z-index:50;
+  background:rgba(245,243,238,.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  padding:0 2rem;
+}
+.nav-inner{
+  max-width:1040px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  height:56px;
+}
+.nav-name{font-family:'Josefin Sans',sans-serif;font-size:17px;font-weight:600;color:var(--text);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;}
+.nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
+.nav-links a{
+  font-size:13px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--text-mid);text-decoration:none;
+  transition:color .2s;
+}
+.nav-links a:hover{color:var(--blue)}
+.nav-links .nav-cta a{
+  background:var(--fuchsia);color:#fff;
+  padding:7px 16px;border-radius:99px;
+  letter-spacing:.03em;
+  transition:background .2s;
+}
+.nav-links .nav-cta a:hover{background:#A83567}
+
+/* ── HERO ── */
+.hero{
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.hero-inner{
+  max-width:1040px;margin:0 auto;
+  padding:5rem 2rem 4rem;
+  display:grid;
+  grid-template-columns:1fr 340px;
+  gap:3rem;
+  align-items:center;
+}
+.hero-text{animation:fadeUp .7s ease both}
+.hero-eyebrow{
+  font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--fuchsia);margin-bottom:1.2rem;
+  display:flex;align-items:center;gap:10px;
+}
+.hero-eyebrow::before{
+  content:'';display:block;width:28px;height:1.5px;background:var(--fuchsia);flex-shrink:0;
+}
+.hero-name{
+  font-family:'Josefin Sans',sans-serif;
+  font-size:clamp(42px,5.5vw,66px);
+  font-weight:600;line-height:1.1;
+  color:var(--text);
+  margin-bottom:1.25rem;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+}
+.hero-name em{color:var(--fuchsia);font-style:normal;font-weight:300}
+.hero-title{
+  font-size:16px;font-weight:300;
+  color:var(--text-mid);
+  line-height:1.65;
+  max-width:480px;
+  margin-bottom:2rem;
+  border-left:2px solid var(--blue-pale);
+  padding-left:1rem;
+}
+.hero-title strong{font-weight:500;color:var(--text)}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:11px 22px;border-radius:99px;
+  font-size:14px;font-weight:500;
+  text-decoration:none;
+  transition:all .2s;
+  font-family:inherit;
+  cursor:pointer;border:none;
+}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:var(--blue-dark);transform:translateY(-1px)}
+.btn-outline{
+  background:transparent;color:var(--blue);
+  border:1.5px solid var(--blue);
+}
+.btn-outline:hover{background:var(--blue-faint);transform:translateY(-1px)}
+
+/* ── HERO PHOTO ── */
+.hero-photo-wrap{
+  position:relative;
+  animation:fadeUp .7s .15s ease both;
+}
+.hero-photo-bg{
+  position:absolute;inset:-14px -14px 14px 14px;
+  background:var(--blue-pale);
+  border-radius:24px;
+  z-index:0;
+}
+.hero-photo{
+  position:relative;z-index:1;
+  width:100%;aspect-ratio:1/1;
+  border-radius:20px;
+  object-fit:cover;object-position:center top;
+  display:block;
+  box-shadow:0 16px 48px rgba(60,90,110,.18);
+}
+.hero-badge{
+  position:absolute;z-index:2;
+  bottom:-16px;right:20px;
+  background:#fff;
+  border-radius:12px;
+  padding:10px 14px;
+  display:flex;align-items:center;gap:8px;
+  box-shadow:0 4px 16px rgba(0,0,0,.1);
+  font-size:12px;font-weight:500;color:var(--text-mid);
+}
+.hero-badge-dot{
+  width:8px;height:8px;border-radius:50%;background:#4CAF7D;flex-shrink:0;
+  box-shadow:0 0 0 3px rgba(76,175,125,.2);
+}
+
+/* ── DIVIDER ── */
+.divider{
+  max-width:1040px;margin:0 auto;padding:0 2rem;
+}
+.divider hr{border:none;border-top:1px solid var(--border)}
+
+/* ── ABOUT STRIP ── */
+.about-strip{
+  background: #fff;
+  border-top: 3px solid var(--fuchsia);
+  border-bottom: 1px solid var(--border);
+}
+.about-strip-inner{
+  max-width:1040px;margin:0 auto;
+  padding:3.5rem 2rem;
+  display:grid;
+  grid-template-columns:200px 1fr;
+  gap:3rem;
+  align-items:start;
+}
+.about-label{
+  font-family:'Josefin Sans',sans-serif;
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--fuchsia);
+  font-weight:600;
+  padding-top:.3rem;
+}
+.about-body p{
+  font-size:17px;font-weight:300;
+  color:var(--text-mid);
+  line-height:1.75;
+  margin-bottom:1rem;
+}
+.about-body p:last-child{margin-bottom:0}
+.about-body strong{font-weight:500;color:var(--blue-dark)}
+.about-body a{color:var(--fuchsia);text-decoration:none;border-bottom:1px solid var(--fuchsia-pale)}
+.about-body a:hover{border-bottom-color:var(--fuchsia)}
+
+/* ── SECTION CARDS ── */
+.section-cards-wrap{
+  max-width:1040px;margin:0 auto;
+  padding:1rem 2rem 5rem;
+}
+.section-cards-head{
+  display:flex;align-items:baseline;gap:1rem;
+  margin-bottom:1.75rem;
+}
+.section-cards-head h2{
+  font-family:'Josefin Sans',sans-serif;
+  font-size:32px;font-weight:600;color:var(--text);
+}
+.section-cards-head p{font-size:14px;color:var(--text-muted)}
+
+.cards-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+  gap:16px;
+}
+.scard{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:1.5rem;
+  text-decoration:none;
+  color:inherit;
+  display:flex;flex-direction:column;gap:10px;
+  transition:transform .2s,box-shadow .2s,border-color .2s;
+  position:relative;overflow:hidden;
+}
+.scard::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--card-accent,var(--blue));
+  opacity:0;transition:opacity .2s;
+}
+.scard:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 28px rgba(0,0,0,.08);
+  border-color:var(--card-accent,var(--blue));
+}
+.scard:hover::before{opacity:1}
+.scard-icon{
+  font-size:28px;width:48px;height:48px;
+  background:var(--card-bg,var(--blue-faint));
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:.25rem;
+}
+.scard-title{
+  font-family:'Josefin Sans',sans-serif;
+  font-size:17px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--text);
+}
+.scard-desc{font-size:14px;color:var(--text-muted);line-height:1.55}
+.scard-arrow{
+  margin-top:auto;padding-top:.75rem;
+  font-size:13px;font-weight:500;
+  color:var(--card-accent,var(--blue));
+  display:flex;align-items:center;gap:5px;
+}
+
+/* Card accent overrides */
+.scard-resume{--card-accent:#5C7F96;--card-bg:#EFF4F7}
+.scard-writing{--card-accent:#C4477A;--card-bg:#F5E0EA}
+.scard-blog{--card-accent:#7A6FA8;--card-bg:#EFECF8}
+.scard-contact{--card-accent:#4A8A6C;--card-bg:#E5F2EC}
+.scard-media{--card-accent:#E07840;--card-bg:#FDF0E8}
+
+/* ── CREDENTIALS STRIP ── */
+.creds-strip{
+  background:var(--bg);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:2rem;
+}
+.creds-inner{
+  max-width:1040px;margin:0 auto;
+  display:flex;flex-wrap:wrap;gap:0;
+  align-items:center;justify-content:center;
+}
+.cred-block{
+  flex:1;min-width:160px;
+  text-align:center;
+  padding:1rem 1.5rem;
+}
+.cred-title{
+  font-family:'Josefin Sans',sans-serif;
+  font-size:18px;font-weight:600;
+  color:var(--blue-dark);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-bottom:.25rem;
+}
+.cred-sub{
+  font-size:12px;color:var(--text-muted);
+  line-height:1.4;
+}
+.cred-divider{
+  width:1px;height:48px;
+  background:var(--border);
+  flex-shrink:0;
+}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border);
+  padding:2rem;
+  text-align:center;
+}
+.footer-inner{
+  max-width:1040px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:1rem;
+}
+.footer-copy{font-size:13px;color:var(--text-muted)}
+.footer-links{display:flex;gap:1.5rem;list-style:none}
+.footer-links a{font-size:13px;color:var(--text-muted);text-decoration:none}
+.footer-links a:hover{color:var(--blue)}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ── MOBILE ── */
+@media(max-width:720px){
+  .hero-inner{grid-template-columns:1fr;padding:3rem 1.5rem 2.5rem;gap:2.5rem}
+  .hero-photo-wrap{max-width:280px;margin:0 auto}
+  .hero-text{order:1}.hero-photo-wrap{order:0}
+  .about-strip-inner{grid-template-columns:1fr;gap:1rem;padding:2.5rem 1.5rem}
+  .about-label{font-size:11px}
+  .section-cards-wrap{padding:1rem 1.5rem 3.5rem}
+  .nav-links .nav-cta{display:none}
+  .footer-inner{flex-direction:column;align-items:flex-start}
+  .creds-inner{flex-direction:column;align-items:flex-start;gap:1.25rem}
+}
+@media(max-width:480px){
+  .nav-links{gap:1.25rem}
+  .nav-links li:not(.nav-cta){display:none}
+  .nav-links .nav-cta{display:flex}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <ul class="nav-links">
+      <li><a href="resume.html">Résumé</a></li>
+      <li><a href="writing.html">Writing</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="media/index.html">Media Log</a></li>
+      <li class="nav-cta"><a href="contact.html">Get in touch</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+   <div class="hero-inner">
+    <div class="hero-text">
+      <h1 class="hero-name">Grace<br><em>Mitchell</em></h1>
+      <p class="hero-title">
+        <strong>Senior Product, Project &amp; Grant Manager</strong><br>
+        Civic tech · Housing policy · Government digital services
+      </p>
+      <div class="hero-actions">
+        <a href="resume.html" class="btn btn-primary">View résumé</a>
+      </div>
+    </div>
+    <div class="hero-photo-wrap">
+      <div class="hero-photo-bg"></div>
+      <img class="hero-photo" src="headshot.png" alt="Grace Mitchell">
+      <div class="hero-badge">
+        <div class="hero-badge-dot"></div>
+        Open to new roles
+      </div>
+    </div>
+   </div>
+  </section>
+
+  <div class="divider"><hr></div>
+
+  <!-- ABOUT -->
+  <section class="about-strip">
+   <div class="about-strip-inner">
+    <div class="about-label">About</div>
+    <div class="about-body">
+      <p>I'm a product and program manager with <strong>20+ years of experience</strong> building civic technology, managing housing policy initiatives, and delivering government digital services. I specialize in turning complex systems into tools that actually work for the people who use them.</p>
+      <p>Most recently I served as <strong>Product Manager at Housing Navigator Massachusetts</strong>, a statewide platform serving 450K+ users annually, and as <strong>IT Project Manager at the City of Boston Mayor's Office of Housing</strong>, where I oversaw $38M+ in rental relief delivery. I hold a <strong>Master of Public Affairs from UT Austin's LBJ School</strong>, PMP, and CNP credentials.</p>
+      <p>I'm based in Newton, MA and serve as a board member of the <a href="#">Newton Fair and Affordable Housing Partnership</a>.</p>
+    </div>
+   </div>
+  </section>
+
+  <!-- SECTION CARDS -->
+  <section class="section-cards-wrap" style="padding-top:3rem">
+    <div class="cards-grid">
+
+      <a href="resume.html" class="scard scard-resume">
+        <div class="scard-icon">📄</div>
+        <div class="scard-title">Résumé</div>
+        <div class="scard-desc">Two decades of civic tech, housing policy, grant management, and digital product delivery.</div>
+        <div class="scard-arrow">View résumé →</div>
+      </a>
+
+      <a href="writing.html" class="scard scard-writing">
+        <div class="scard-icon">✍️</div>
+        <div class="scard-title">Writing Samples</div>
+        <div class="scard-desc">Grant proposals, policy briefs, product documentation, and articles on civic technology.</div>
+        <div class="scard-arrow">Read samples →</div>
+      </a>
+
+      <a href="blog.html" class="scard scard-blog">
+        <div class="scard-icon">📝</div>
+        <div class="scard-title">Blog</div>
+        <div class="scard-desc">Reflections on AI tools, government tech, housing equity, and working in the public interest.</div>
+        <div class="scard-arrow">Read posts →</div>
+      </a>
+
+      <a href="contact.html" class="scard scard-contact">
+        <div class="scard-icon">💬</div>
+        <div class="scard-title">Contact</div>
+        <div class="scard-desc">Interested in working together or just want to connect? I'd love to hear from you.</div>
+        <div class="scard-arrow">Get in touch →</div>
+      </a>
+
+      <a href="https://gracemitchell13.github.io/media-log/" class="scard scard-media" target="_blank" rel="noopener">
+        <div class="scard-icon">📚</div>
+        <div class="scard-title">Media Log</div>
+        <div class="scard-desc">A live log of what I'm reading, watching, and listening to — built with Firebase and GitHub Pages.</div>
+        <div class="scard-arrow">Explore →</div>
+      </a>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- CREDENTIALS STRIP -->
+<div class="creds-strip">
+  <div class="creds-inner">
+    <div class="cred-block">
+      <div class="cred-title">M.P.Aff.</div>
+      <div class="cred-sub">UT Austin · LBJ School of Public Affairs</div>
+    </div>
+    <div class="cred-divider"></div>
+    <div class="cred-block">
+      <div class="cred-title">PMP</div>
+      <div class="cred-sub">Project Management Professional</div>
+    </div>
+    <div class="cred-divider"></div>
+    <div class="cred-block">
+      <div class="cred-title">CNP</div>
+      <div class="cred-sub">Certified Nonprofit Professional</div>
+    </div>
+    <div class="cred-divider"></div>
+    <div class="cred-block">
+      <div class="cred-title">Google AI</div>
+      <div class="cred-sub">Professional Certificate · In progress</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-copy">&copy; 2026 Grace Mitchell</span>
+    <ul class="footer-links">
+      <li><a href="resume.html">Résumé</a></li>
+      <li><a href="writing.html">Writing</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="https://www.linkedin.com/in/gracemitchell" target="_blank">LinkedIn</a></li>
+    </ul>
+  </div>
+</footer>
+
+</body>
+</html>
