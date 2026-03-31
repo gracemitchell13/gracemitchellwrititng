@@ -1,0 +1,15 @@
+title: Grace Mitchell
+description: Senior Product, Project & Grant Manager — Civic tech, housing policy, and government digital services.
+url: "https://gracemitchellwriting.com"
+baseurl: ""
+permalink: /blog/:year/:month/:day/:title/
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+# Exclude from build
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock

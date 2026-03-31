@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact — Grace Mitchell</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue:       #5C7F96;
+  --blue-dark:  #3E5F74;
+  --blue-pale:  #D8E4EC;
+  --blue-faint: #EFF4F7;
+  --fuchsia:    #C4477A;
+  --fuchsia-pale: #F5E0EA;
+  --bg:         #F5F3EE;
+  --bg-card:    #FFFFFF;
+  --text:       #1C1C1A;
+  --text-mid:   #4A4A46;
+  --text-muted: #888880;
+  --border:     rgba(0,0,0,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',system-ui,sans-serif;font-weight:400;background:var(--bg);color:var(--text);line-height:1.6;font-size:16px;}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:50;background:rgba(245,243,238,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;}
+.nav-inner{max-width:1040px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px;}
+.nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
+.nav-links a{font-size:13px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--text-mid);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--blue)}
+.nav-links .nav-cta a{background:var(--fuchsia);color:#fff;padding:7px 16px;border-radius:99px;transition:background .2s;}
+.nav-links .nav-cta a:hover{background:#A83567}
+
+/* PAGE HEADER */
+.page-header{background:var(--bg);border-bottom:1px solid var(--border);padding:4rem 2rem 3rem;}
+.page-header-inner{max-width:1040px;margin:0 auto;}
+.page-title{font-family:'Josefin Sans',sans-serif;font-size:clamp(36px,5vw,58px);font-weight:600;line-height:1.1;color:var(--text);letter-spacing:.05em;text-transform:uppercase;}
+.page-title em{color:var(--fuchsia);font-style:normal;font-weight:300;}
+
+/* CONTACT BODY */
+.contact-wrap{max-width:1040px;margin:0 auto;padding:4rem 2rem 6rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+
+.contact-intro{font-size:18px;font-weight:300;color:var(--text-mid);line-height:1.8;margin-bottom:2.5rem;}
+.contact-intro strong{font-weight:500;color:var(--text);}
+
+.contact-links{display:flex;flex-direction:column;gap:12px;}
+.contact-link{
+  display:flex;align-items:center;gap:16px;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:1.25rem 1.5rem;
+  text-decoration:none;
+  color:inherit;
+  transition:transform .18s,box-shadow .18s,border-color .18s;
+  position:relative;overflow:hidden;
+}
+.contact-link::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--link-accent,var(--blue));
+  opacity:0;transition:opacity .18s;
+}
+.contact-link:hover{transform:translateX(4px);box-shadow:0 4px 20px rgba(0,0,0,.06);border-color:var(--blue-pale);}
+.contact-link:hover::before{opacity:1}
+.contact-link-email{--link-accent:var(--fuchsia);}
+.contact-link-linkedin{--link-accent:var(--blue);}
+
+.contact-link-icon{
+  width:44px;height:44px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;
+}
+.contact-link-email .contact-link-icon{background:var(--fuchsia-pale);}
+.contact-link-linkedin .contact-link-icon{background:var(--blue-faint);}
+
+.contact-link-text{}
+.contact-link-label{font-family:'Josefin Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:3px;}
+.contact-link-value{font-size:15px;font-weight:400;color:var(--text);}
+
+/* RIGHT SIDE - availability note */
+.contact-note{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:2rem;
+  position:sticky;top:80px;
+}
+.contact-note-label{
+  font-family:'Josefin Sans',sans-serif;
+  font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--fuchsia);margin-bottom:1rem;display:flex;align-items:center;gap:8px;
+}
+.contact-note-dot{width:7px;height:7px;border-radius:50%;background:#4CAF7D;flex-shrink:0;box-shadow:0 0 0 3px rgba(76,175,125,.2);}
+.contact-note-heading{
+  font-family:'Josefin Sans',sans-serif;
+  font-size:22px;font-weight:600;letter-spacing:.03em;
+  color:var(--text);margin-bottom:1rem;line-height:1.2;
+}
+.contact-note-body{font-size:15px;font-weight:300;color:var(--text-mid);line-height:1.75;}
+.contact-note-body p{margin-bottom:.85rem;}
+.contact-note-body p:last-child{margin-bottom:0;}
+.contact-note-body strong{font-weight:500;color:var(--text);}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:2rem;}
+.footer-inner{max-width:1040px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.footer-copy{font-size:13px;color:var(--text-muted);}
+.footer-links{display:flex;gap:1.5rem;list-style:none}
+.footer-links a{font-size:13px;color:var(--text-muted);text-decoration:none;}
+.footer-links a:hover{color:var(--blue)}
+
+@media(max-width:720px){
+  .page-header{padding:3rem 1.5rem 2rem;}
+  .contact-wrap{grid-template-columns:1fr;gap:2.5rem;padding:2.5rem 1.5rem 4rem;}
+  .contact-note{position:static;}
+  .nav-links li:not(.nav-cta){display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/resume.html">Résumé</a></li>
+      <li><a href="/writing.html">Work Samples</a></li>
+      <li><a href="/blog.html">Blog</a></li>
+      <li><a href="https://gracemitchell13.github.io/media-log/">Media Log</a></li>
+      <li class="nav-cta"><a href="/contact.html">Get in touch</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="page-header-inner">
+    <h1 class="page-title">Get in <em>Touch</em></h1>
+  </div>
+</header>
+
+<div class="contact-wrap">
+
+  <div>
+    <p class="contact-intro">I'd love to hear from you — whether you're thinking about working together, want to talk civic tech, or just want to connect.</p>
+
+    <div class="contact-links">
+      <a href="mailto:gracemitchellwriting@gmail.com" class="contact-link contact-link-email">
+        <div class="contact-link-icon">✉️</div>
+        <div class="contact-link-text">
+          <div class="contact-link-label">Email</div>
+          <div class="contact-link-value">gracemitchellwriting@gmail.com</div>
+        </div>
+      </a>
+
+      <a href="https://www.linkedin.com/in/gracemitchellwriting/" target="_blank" rel="noopener" class="contact-link contact-link-linkedin">
+        <div class="contact-link-icon">💼</div>
+        <div class="contact-link-text">
+          <div class="contact-link-label">LinkedIn</div>
+          <div class="contact-link-value">linkedin.com/in/gracemitchellwriting</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="contact-note">
+    <div class="contact-note-label">
+      <div class="contact-note-dot"></div>
+      Currently available
+    </div>
+    <div class="contact-note-heading">Open to new roles</div>
+    <div class="contact-note-body">
+      <p>I'm actively looking for my next opportunity in <strong>civic tech, housing policy, or government digital services</strong> — product management, program management, or grant management roles where the work actually matters.</p>
+      <p>I'm based in Newton, MA and open to remote or hybrid arrangements.</p>
+      <p>If you're working on something interesting in the public interest space, I'd love to talk.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-copy">&copy; 2026 Grace Mitchell</span>
+    <ul class="footer-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/resume.html">Résumé</a></li>
+      <li><a href="/blog.html">Blog</a></li>
+      <li><a href="/writing.html">Work Samples</a></li>
+    </ul>
+  </div>
+</footer>
+
+</body>
+</html>
