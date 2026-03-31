@@ -1,0 +1,172 @@
+---
+title: Blog
+permalink: /blog.html
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Blog — Grace Mitchell</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue:       #5C7F96;
+  --blue-dark:  #3E5F74;
+  --blue-pale:  #D8E4EC;
+  --blue-faint: #EFF4F7;
+  --fuchsia:    #C4477A;
+  --fuchsia-pale: #F5E0EA;
+  --bg:         #F5F3EE;
+  --bg-card:    #FFFFFF;
+  --text:       #1C1C1A;
+  --text-mid:   #4A4A46;
+  --text-muted: #888880;
+  --border:     rgba(0,0,0,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:16px;}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:50;background:rgba(245,243,238,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;}
+.nav-inner{max-width:1040px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px;}
+.nav-name{font-family:'Josefin Sans',sans-serif;font-size:20px;font-weight:600;color:var(--text);text-decoration:none;}
+.nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
+.nav-links a{font-size:13px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--text-mid);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--blue)}
+.nav-links .nav-cta a{background:var(--fuchsia);color:#fff;padding:7px 16px;border-radius:99px;}
+.nav-links .nav-cta a:hover{background:#A83567}
+
+/* PAGE HEADER */
+.page-header{background:var(--bg);border-bottom:1px solid var(--border);padding:4rem 2rem 3rem;}
+.page-header-inner{max-width:1040px;margin:0 auto;}
+.page-eyebrow{font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--fuchsia);margin-bottom:1rem;display:flex;align-items:center;gap:10px;}
+.page-eyebrow::before{content:'';display:block;width:28px;height:1.5px;background:var(--fuchsia);}
+.page-title{font-family:'Josefin Sans',sans-serif;font-size:clamp(36px,5vw,58px);font-weight:600;line-height:1.1;color:var(--text);letter-spacing:.05em;text-transform:uppercase;margin-bottom:1rem;}
+.page-title em{color:var(--fuchsia);font-style:normal;font-weight:300;}
+.page-desc{font-size:17px;font-weight:300;color:var(--text-mid);max-width:520px;line-height:1.65;}
+
+/* POST LIST */
+.posts-wrap{max-width:1040px;margin:0 auto;padding:3rem 2rem 5rem;}
+.posts-list{display:flex;flex-direction:column;gap:2px;}
+
+.post-row{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:1.75rem 2rem;
+  text-decoration:none;
+  color:inherit;
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:1rem 2rem;
+  align-items:start;
+  transition:transform .18s,box-shadow .18s,border-color .18s;
+  position:relative;
+}
+.post-row::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--fuchsia);border-radius:14px 0 0 14px;
+  opacity:0;transition:opacity .18s;
+}
+.post-row:hover{transform:translateX(4px);box-shadow:0 4px 20px rgba(0,0,0,.06);border-color:var(--blue-pale);}
+.post-row:hover::before{opacity:1}
+
+.post-row-main{}
+.post-row-meta{display:flex;align-items:center;gap:8px;margin-bottom:.6rem;flex-wrap:wrap;}
+.post-row-date{font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);}
+.post-row-tag{font-size:11px;font-weight:600;padding:2px 9px;border-radius:99px;background:var(--fuchsia-pale);color:var(--fuchsia);}
+.post-row-title{font-family:'Josefin Sans',sans-serif;font-size:22px;font-weight:700;color:var(--text);line-height:1.2;margin-bottom:.5rem;}
+.post-row-summary{font-size:14px;color:var(--text-muted);line-height:1.6;max-width:600px;}
+.post-row-arrow{font-size:18px;color:var(--blue-pale);align-self:center;transition:color .18s;flex-shrink:0;}
+.post-row:hover .post-row-arrow{color:var(--blue);}
+
+/* Empty state */
+.no-posts{text-align:center;padding:5rem 1rem;color:var(--text-muted);}
+.no-posts-icon{font-size:40px;margin-bottom:1rem;opacity:.4;}
+.no-posts p{font-size:15px;}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:2rem;}
+.footer-inner{max-width:1040px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.footer-copy{font-size:13px;color:var(--text-muted);}
+.footer-links{display:flex;gap:1.5rem;list-style:none}
+.footer-links a{font-size:13px;color:var(--text-muted);text-decoration:none;}
+.footer-links a:hover{color:var(--blue)}
+
+@media(max-width:720px){
+  .page-header{padding:3rem 1.5rem 2rem}
+  .posts-wrap{padding:2rem 1.5rem 4rem}
+  .post-row{grid-template-columns:1fr;padding:1.25rem 1.5rem}
+  .post-row-arrow{display:none}
+  .nav-links li:not(.nav-cta){display:none}
+}
+/* Skip nav */
+.skip-nav{position:absolute;top:-100%;left:1rem;background:var(--fuchsia);color:#fff;padding:8px 16px;border-radius:0 0 8px 8px;font-size:14px;font-weight:500;text-decoration:none;z-index:1000;transition:top .1s}
+.skip-nav:focus{top:0}
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-nav">Skip to main content</a>
+<a href="#main-content" class="skip-nav">Skip to main content</a>
+
+<nav>
+  <div class="nav-inner">
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/resume.html">Résumé</a></li>
+      <li><a href="/writing.html">Work Samples</a></li>
+      <li><a href="/blog.html">Blog</a></li>
+      <li><a href="https://gracemitchell13.github.io/media-log/">Media Log</a></li>
+      <li class="nav-cta"><a href="/contact.html">Get in touch</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="page-header-inner">
+    <h1 class="page-title">The <em>Blog</em></h1>
+  </div>
+</header>
+
+<div class="posts-wrap" id="main-content">
+  {% if site.posts.size > 0 %}
+  <div class="posts-list">
+    {% for post in site.posts %}
+    <a href="{{ site.baseurl }}{{ post.url }}" class="post-row">
+      <div class="post-row-main">
+        <div class="post-row-meta">
+          <span class="post-row-date">{{ post.date | date: "%B %-d, %Y" }}</span>
+          {% if post.tag %}<span class="post-row-tag">{{ post.tag }}</span>{% endif %}
+        </div>
+        <div class="post-row-title">{{ post.title }}</div>
+        {% if post.summary %}<div class="post-row-summary">{{ post.summary }}</div>{% endif %}
+      </div>
+      <div class="post-row-arrow">→</div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="no-posts">
+    <div class="no-posts-icon">✏️</div>
+    <p>Posts coming soon.</p>
+  </div>
+  {% endif %}
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-copy">&copy; 2026 Grace Mitchell</span>
+    <ul class="footer-links">
+      <li><a href="/resume.html">Résumé</a></li>
+      <li><a href="/writing.html">Work Samples</a></li>
+      <li><a href="/blog.html">Blog</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+
+</body>
+</html>
