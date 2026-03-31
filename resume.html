@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Résumé — Grace Mitchell</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue:       #5C7F96;
+  --blue-dark:  #3E5F74;
+  --blue-pale:  #D8E4EC;
+  --blue-faint: #EFF4F7;
+  --fuchsia:    #C4477A;
+  --fuchsia-pale: #F5E0EA;
+  --bg:         #F5F3EE;
+  --bg-card:    #FFFFFF;
+  --text:       #1C1C1A;
+  --text-mid:   #4A4A46;
+  --text-muted: #888880;
+  --border:     rgba(0,0,0,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',system-ui,sans-serif;font-weight:400;background:var(--bg);color:var(--text);line-height:1.6;font-size:16px;}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:50;background:rgba(245,243,238,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;}
+.nav-inner{max-width:1040px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px;}
+.nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
+.nav-links a{font-size:13px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--text-mid);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--blue)}
+.nav-links .nav-cta a{background:var(--fuchsia);color:#fff;padding:7px 16px;border-radius:99px;transition:background .2s;}
+.nav-links .nav-cta a:hover{background:#A83567}
+
+/* PAGE HEADER */
+.page-header{background:var(--bg);border-bottom:1px solid var(--border);padding:4rem 2rem 3rem;}
+.page-header-inner{max-width:1040px;margin:0 auto;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;}
+.page-title{font-family:'Josefin Sans',sans-serif;font-size:clamp(36px,5vw,58px);font-weight:600;line-height:1.1;color:var(--text);letter-spacing:.05em;text-transform:uppercase;}
+.page-title em{color:var(--fuchsia);font-style:normal;font-weight:300;}
+.dl-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 20px;border-radius:99px;
+  font-size:13px;font-weight:500;font-family:inherit;
+  background:var(--blue);color:#fff;
+  text-decoration:none;border:none;cursor:pointer;
+  transition:background .2s;white-space:nowrap;
+  letter-spacing:.02em;
+}
+.dl-btn:hover{background:var(--blue-dark)}
+.dl-btn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+/* RESUME BODY */
+.resume-wrap{max-width:1040px;margin:0 auto;padding:3rem 2rem 5rem;display:grid;grid-template-columns:220px 1fr;gap:3rem;align-items:start;}
+
+/* LEFT SIDEBAR */
+.sidebar{}
+.sidebar-block{margin-bottom:2.5rem;}
+.sidebar-label{font-family:'Josefin Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--fuchsia);margin-bottom:.75rem;display:block;}
+.sidebar-item{font-size:13px;color:var(--text-mid);line-height:1.6;margin-bottom:.35rem;}
+.sidebar-item a{color:var(--blue);text-decoration:none;}
+.sidebar-item a:hover{text-decoration:underline;}
+.sidebar-item strong{font-weight:500;color:var(--text);display:block;}
+.expertise-list{display:flex;flex-direction:column;gap:4px;}
+.expertise-item{font-size:12px;color:var(--text-mid);line-height:1.5;padding:4px 0;border-bottom:1px solid var(--border);}
+.expertise-item:last-child{border-bottom:none;}
+
+/* MAIN CONTENT */
+.resume-main{}
+.profile-block{margin-bottom:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid var(--border);}
+.profile-text{font-size:16px;font-weight:300;color:var(--text-mid);line-height:1.8;}
+
+/* SECTION */
+.resume-section{margin-bottom:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid var(--border);}
+.resume-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.section-label{font-family:'Josefin Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--fuchsia);margin-bottom:1.25rem;display:block;}
+
+/* JOB */
+.job{margin-bottom:2rem;}
+.job:last-child{margin-bottom:0;}
+.job-header{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.5rem;margin-bottom:.25rem;}
+.job-org{font-family:'Josefin Sans',sans-serif;font-size:15px;font-weight:600;color:var(--text);letter-spacing:.03em;}
+.job-location-date{font-size:12px;color:var(--text-muted);white-space:nowrap;}
+.job-title{font-size:14px;font-weight:500;color:var(--blue-dark);margin-bottom:.6rem;font-style:italic;}
+.job-bullets{padding-left:1.1rem;display:flex;flex-direction:column;gap:.4rem;}
+.job-bullets li{font-size:14px;font-weight:300;color:var(--text-mid);line-height:1.65;}
+
+/* EDUCATION */
+.edu-item{margin-bottom:1rem;}
+.edu-item:last-child{margin-bottom:0;}
+.edu-degree{font-size:14px;font-weight:500;color:var(--text);}
+.edu-school{font-size:13px;color:var(--text-muted);}
+
+/* CREDENTIALS */
+.cred-item{display:flex;align-items:center;gap:8px;margin-bottom:.5rem;font-size:14px;color:var(--text-mid);}
+.cred-item:last-child{margin-bottom:0;}
+.cred-dot{width:6px;height:6px;border-radius:50%;background:var(--fuchsia);flex-shrink:0;}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:2rem;}
+.footer-inner{max-width:1040px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.footer-copy{font-size:13px;color:var(--text-muted);}
+.footer-links{display:flex;gap:1.5rem;list-style:none}
+.footer-links a{font-size:13px;color:var(--text-muted);text-decoration:none;}
+.footer-links a:hover{color:var(--blue)}
+
+@media(max-width:720px){
+  .resume-wrap{grid-template-columns:1fr;gap:2rem;padding:2rem 1.5rem 4rem;}
+  .page-header{padding:3rem 1.5rem 2rem;}
+  .page-header-inner{flex-direction:column;align-items:flex-start;}
+  .nav-links li:not(.nav-cta){display:none}
+  .job-header{flex-direction:column;gap:.1rem;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <ul class="nav-links">
+      <li><a href="/gracemitchellwriting/">Home</a></li>
+      <li><a href="/gracemitchellwriting/resume.html">Résumé</a></li>
+      <li><a href="/gracemitchellwriting/writing.html">Work Samples</a></li>
+      <li><a href="/gracemitchellwriting/blog.html">Blog</a></li>
+      <li><a href="https://gracemitchell13.github.io/media-log/">Media Log</a></li>
+      <li class="nav-cta"><a href="/gracemitchellwriting/contact.html">Get in touch</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="page-header-inner">
+    <h1 class="page-title">Ré<em>sumé</em></h1>
+    <a href="mitchell_resume.pdf" download class="dl-btn">
+      <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download PDF
+    </a>
+  </div>
+</header>
+
+<div class="resume-wrap">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="sidebar-block">
+      <span class="sidebar-label">Contact</span>
+      <div class="sidebar-item"><a href="mailto:gracemitchellwriting@gmail.com">gracemitchellwriting@gmail.com</a></div>
+      <div class="sidebar-item">(512) 698-6506</div>
+      <div class="sidebar-item">Newton, MA</div>
+    </div>
+
+    <div class="sidebar-block">
+      <span class="sidebar-label">Education</span>
+      <div class="edu-item">
+        <div class="edu-degree">Master of Public Affairs</div>
+        <div class="edu-school">University of Texas at Austin</div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-degree">Bachelor of Arts</div>
+        <div class="edu-school">Reed College</div>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <span class="sidebar-label">Credentials</span>
+      <div class="cred-item"><div class="cred-dot"></div>PMP — Active</div>
+      <div class="cred-item"><div class="cred-dot"></div>CNP — Active</div>
+      <div class="cred-item"><div class="cred-dot"></div>Google AI Professional Certificate</div>
+    </div>
+
+    <div class="sidebar-block">
+      <span class="sidebar-label">Expertise</span>
+      <div class="expertise-list">
+        <div class="expertise-item">Product strategy & roadmap management</div>
+        <div class="expertise-item">User research & human-centered design</div>
+        <div class="expertise-item">Agile & iterative delivery</div>
+        <div class="expertise-item">Cross-functional team leadership</div>
+        <div class="expertise-item">Stakeholder management</div>
+        <div class="expertise-item">Data-informed decision-making</div>
+        <div class="expertise-item">Digital accessibility (WCAG, Section 508)</div>
+        <div class="expertise-item">Platform & vendor management</div>
+        <div class="expertise-item">Requirements definition & functional specs</div>
+        <div class="expertise-item">Mission-driven nonprofit experience</div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="resume-main">
+
+    <div class="profile-block">
+      <span class="section-label">Profile</span>
+      <p class="profile-text">Strategic product and program leader with 20+ years of experience translating complex policy and organizational goals into human-centered digital services. Deep experience navigating large, multi-stakeholder government ecosystems — building alignment across agencies, vendors, advocates, and communities without direct authority over any of them. Track record of driving systems-level change in Massachusetts housing and civic technology programs. PMP-certified, CNP-credentialed, with a Master's in Public Affairs.</p>
+    </div>
+
+    <div class="resume-section">
+      <span class="section-label">Experience</span>
+
+      <div class="job">
+        <div class="job-header">
+          <span class="job-org">Housing Navigator Massachusetts</span>
+          <span class="job-location-date">Cambridge, MA · 2023–2025</span>
+        </div>
+        <div class="job-title">Product Manager</div>
+        <ul class="job-bullets">
+          <li>Led strategy and stakeholder alignment for a statewide housing platform serving approximately 450,000 annual users, coordinating across EOHLC, regional housing authorities, property managers, and advocacy organizations to keep the platform aligned with rapidly evolving policy and community needs.</li>
+          <li>Contributed to early discovery work for a cross-system data integration initiative, facilitating stakeholder interviews, mapping ecosystem relationships, and surfacing key technical and organizational integration challenges.</li>
+          <li>Led human-centered redesign of the core user experience, overseeing user research with underserved populations and translating findings into product decisions across a cross-functional team of developers, analysts, QA, and content specialists.</li>
+          <li>Managed a direct report (Community Manager) and vendor relationships while coordinating implementation across multiple external partners with no direct organizational authority.</li>
+          <li>Translated organizational mission and state policy objectives into an iterative product roadmap, balancing stakeholder priorities, technical constraints, and resource limitations in a nonprofit environment.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <span class="job-org">City of Boston Mayor's Office of Housing</span>
+          <span class="job-location-date">Boston, MA · 2021–2023</span>
+        </div>
+        <div class="job-title">IT Project Manager (Consultant)</div>
+        <ul class="job-bullets">
+          <li>Served as the primary technical bridge across city departments, state agencies, federal oversight bodies, and community organizations for a $38M+ Emergency Rental Assistance program.</li>
+          <li>Managed development and operations of Salesforce-based platforms supporting case management and payment disbursement, navigating shifting federal requirements while maintaining service continuity for vulnerable users.</li>
+          <li>Identified operational and policy gaps, facilitated cross-functional working sessions to resolve them, and implemented system and process improvements that accelerated disbursement timelines and improved equity of access.</li>
+          <li>Maintained trusted relationships with technical vendors, program administrators, and community-facing partners through transparent communication and consistent follow-through.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <span class="job-org">Newton Fair and Affordable Housing Partnership</span>
+          <span class="job-location-date">Newton, MA · 2025–Present</span>
+        </div>
+        <div class="job-title">Board Member</div>
+        <ul class="job-bullets">
+          <li>Represent community interests in shaping Newton's affordable housing policy, engaging with developers, city officials, and state agency partners on inclusionary zoning, AFFH compliance, and housing production strategy.</li>
+          <li>Navigate competing stakeholder priorities across a multi-sector commission, contributing analysis and recommendations grounded in both systems-level thinking and community impact.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <span class="job-org">Meridian Knowledge Solutions</span>
+          <span class="job-location-date">Reston, VA · 2012–2020</span>
+        </div>
+        <div class="job-title">Senior Proposal Manager / Project Manager / Documentation Team Lead</div>
+        <ul class="job-bullets">
+          <li>As Senior Proposal Manager: directed federal and state proposal development (approximately 40/year; up to $139M per bid), coordinating cross-functional teams across strategy, compliance, technical writing, and subject matter expertise.</li>
+          <li>As Documentation Team Lead: managed two direct reports and led accessibility initiatives, ensuring WCAG 2.0 AA compliance across software products.</li>
+          <li>As Project Manager: managed software release cycles and cross-departmental collaboration to streamline delivery and improve user satisfaction.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <span class="job-org">Texas Commission on Environmental Quality</span>
+          <span class="job-location-date">Austin, TX · 2009–2011</span>
+        </div>
+        <div class="job-title">Technical Writer / Documentation Specialist (Consultant)</div>
+        <ul class="job-bullets">
+          <li>Participated in and scribed Joint Application Development (JAD) sessions between technical vendor teams and state subject matter experts, facilitating requirements alignment for new environmental monitoring software.</li>
+          <li>Oversaw accessibility-compliant transition of all user and technical documentation for the state's environmental quality software systems.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <span class="job-org">University of Texas at Austin</span>
+          <span class="job-location-date">Austin, TX · 2006–2009</span>
+        </div>
+        <div class="job-title">Senior Grants & Contracts Specialist</div>
+        <ul class="job-bullets">
+          <li>Oversaw $15M in research and operating budgets; coordinated cross-departmental NIH and private grant applications across neuroscience labs, managing complex compliance and financial reporting requirements.</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="resume-section">
+      <span class="section-label">Additional</span>
+      <div class="job">
+        <div class="job-header">
+          <span class="job-org">Elkton Community Education Center</span>
+          <span class="job-location-date">Strategic Advisor</span>
+        </div>
+        <div class="job-title">Grant strategy, funding evaluation, and organizational positioning</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-copy">&copy; 2026 Grace Mitchell</span>
+    <ul class="footer-links">
+      <li><a href="/gracemitchellwriting/">Home</a></li>
+      <li><a href="/gracemitchellwriting/writing.html">Work Samples</a></li>
+      <li><a href="/gracemitchellwriting/blog.html">Blog</a></li>
+      <li><a href="/gracemitchellwriting/contact.html">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+
+</body>
+</html>
