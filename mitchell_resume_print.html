@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Grace Mitchell — Résumé</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:10pt}
+body{
+  font-family:'DM Sans',system-ui,sans-serif;
+  font-weight:400;
+  color:#1C1C1A;
+  background:#fff;
+  line-height:1.5;
+}
+
+/* PAGE */
+.page{
+  width:8.5in;
+  min-height:11in;
+  margin:0 auto;
+  padding:.55in .6in .55in .6in;
+  background:#fff;
+}
+
+/* HEADER */
+.resume-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  padding-bottom:.3in;
+  border-bottom:2px solid #C4477A;
+  margin-bottom:.25in;
+}
+.header-name{
+  font-family:'Josefin Sans',sans-serif;
+  font-size:28pt;
+  font-weight:600;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:#1C1C1A;
+  line-height:1;
+}
+.header-name em{
+  color:#C4477A;
+  font-style:normal;
+  font-weight:300;
+}
+.header-title{
+  font-family:'Josefin Sans',sans-serif;
+  font-size:9pt;
+  font-weight:400;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:#5C7F96;
+  margin-top:5px;
+}
+.header-contact{
+  text-align:right;
+  font-size:8.5pt;
+  color:#4A4A46;
+  line-height:1.8;
+}
+.header-contact a{color:#5C7F96;text-decoration:none}
+
+/* LAYOUT */
+.resume-body{
+  display:grid;
+  grid-template-columns:1.6in 1fr;
+  gap:0 .3in;
+}
+
+/* SIDEBAR */
+.sidebar{}
+.sidebar-block{margin-bottom:.25in}
+.sidebar-label{
+  font-family:'Josefin Sans',sans-serif;
+  font-size:7pt;
+  font-weight:600;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#C4477A;
+  margin-bottom:5px;
+  display:block;
+}
+.sidebar-item{font-size:8pt;color:#4A4A46;line-height:1.7;margin-bottom:2px}
+.sidebar-item strong{font-weight:500;color:#1C1C1A;display:block;font-size:8.5pt}
+
+.cred-item{
+  display:flex;align-items:flex-start;gap:5px;
+  font-size:8pt;color:#4A4A46;line-height:1.5;margin-bottom:3px;
+}
+.cred-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:#C4477A;flex-shrink:0;margin-top:4px;
+}
+
+.expertise-item{
+  font-size:7.5pt;color:#4A4A46;line-height:1.5;
+  padding:2px 0;border-bottom:.5px solid rgba(0,0,0,.08);
+}
+.expertise-item:last-child{border-bottom:none}
+
+/* MAIN */
+.main{}
+
+/* SECTION */
+.resume-section{margin-bottom:.22in}
+.section-label{
+  font-family:'Josefin Sans',sans-serif;
+  font-size:7pt;
+  font-weight:600;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#C4477A;
+  display:block;
+  margin-bottom:.1in;
+  padding-bottom:3px;
+  border-bottom:.5px solid #D8E4EC;
+}
+
+/* PROFILE */
+.profile-text{
+  font-size:9pt;font-weight:300;
+  color:#4A4A46;line-height:1.65;
+}
+
+/* JOB */
+.job{margin-bottom:.15in}
+.job:last-child{margin-bottom:0}
+.job-header{
+  display:flex;justify-content:space-between;
+  align-items:baseline;margin-bottom:1px;
+}
+.job-org{
+  font-family:'Josefin Sans',sans-serif;
+  font-size:10pt;font-weight:600;
+  color:#1C1C1A;letter-spacing:.02em;
+}
+.job-location-date{font-size:7.5pt;color:#888880;white-space:nowrap}
+.job-title{
+  font-size:8.5pt;font-weight:500;
+  color:#3E5F74;margin-bottom:4px;
+  font-style:italic;
+}
+.job-bullets{padding-left:9px;display:flex;flex-direction:column;gap:2px}
+.job-bullets li{font-size:8.5pt;font-weight:300;color:#4A4A46;line-height:1.5}
+
+/* PRINT */
+@media print{
+  body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .page{margin:0;padding:.45in .5in;width:100%}
+  a{color:inherit!important;text-decoration:none!important}
+}
+
+/* SCREEN preview */
+@media screen{
+  body{background:#e8e6e1;padding:40px 0}
+  .page{box-shadow:0 4px 32px rgba(0,0,0,.15)}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="resume-header">
+    <div>
+      <div class="header-name">Grace <em>Mitchell</em></div>
+      <div class="header-title">Senior Product, Project &amp; Grant Manager</div>
+    </div>
+    <div class="header-contact">
+      <div>(512) 698-6506</div>
+      <div><a href="mailto:gracemitchellwriting@gmail.com">gracemitchellwriting@gmail.com</a></div>
+      <div>Newton, MA</div>
+      <div><a href="https://gracemitchellwriting.com">gracemitchellwriting.com</a></div>
+    </div>
+  </header>
+
+  <div class="resume-body">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <div class="sidebar-block">
+        <span class="sidebar-label">Education</span>
+        <div class="sidebar-item">
+          <strong>Master of Public Affairs</strong>
+          University of Texas at Austin
+        </div>
+        <div class="sidebar-item" style="margin-top:6px">
+          <strong>Bachelor of Arts</strong>
+          Reed College
+        </div>
+      </div>
+
+      <div class="sidebar-block">
+        <span class="sidebar-label">Credentials</span>
+        <div class="cred-item"><div class="cred-dot"></div>PMP — Active</div>
+        <div class="cred-item"><div class="cred-dot"></div>CNP — Active</div>
+        <div class="cred-item"><div class="cred-dot"></div>Google AI Professional Certificate</div>
+      </div>
+
+      <div class="sidebar-block">
+        <span class="sidebar-label">Expertise</span>
+        <div class="expertise-item">Product strategy &amp; roadmap management</div>
+        <div class="expertise-item">User research &amp; human-centered design</div>
+        <div class="expertise-item">Agile &amp; iterative delivery</div>
+        <div class="expertise-item">Cross-functional team leadership</div>
+        <div class="expertise-item">Stakeholder management</div>
+        <div class="expertise-item">Data-informed decision-making</div>
+        <div class="expertise-item">Digital accessibility (WCAG, Section 508)</div>
+        <div class="expertise-item">Platform &amp; vendor management</div>
+        <div class="expertise-item">Requirements &amp; functional specs</div>
+        <div class="expertise-item">Mission-driven nonprofit experience</div>
+      </div>
+
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+      <div class="resume-section">
+        <span class="section-label">Profile</span>
+        <p class="profile-text">Strategic product and program leader with 20+ years of experience translating complex policy and organizational goals into human-centered digital services. Deep experience navigating large, multi-stakeholder government ecosystems — building alignment across agencies, vendors, advocates, and communities without direct authority over any of them. Track record of driving systems-level change in Massachusetts housing and civic technology programs. PMP-certified, CNP-credentialed, with a Master's in Public Affairs.</p>
+      </div>
+
+      <div class="resume-section">
+        <span class="section-label">Experience</span>
+
+        <div class="job">
+          <div class="job-header">
+            <span class="job-org">Housing Navigator Massachusetts</span>
+            <span class="job-location-date">Cambridge, MA · 2023–2025</span>
+          </div>
+          <div class="job-title">Product Manager</div>
+          <ul class="job-bullets">
+            <li>Led strategy and stakeholder alignment for a statewide housing platform serving approximately 450,000 annual users, coordinating across EOHLC, regional housing authorities, property managers, and advocacy organizations to keep the platform aligned with rapidly evolving policy and community needs.</li>
+            <li>Contributed to early discovery work for a cross-system data integration initiative, facilitating stakeholder interviews, mapping ecosystem relationships, and surfacing key technical and organizational integration challenges.</li>
+            <li>Led human-centered redesign of the core user experience, overseeing user research with underserved populations and translating findings into product decisions across a cross-functional team of developers, analysts, QA, and content specialists.</li>
+            <li>Managed a direct report (Community Manager) and vendor relationships while coordinating implementation across multiple external partners with no direct organizational authority.</li>
+            <li>Translated organizational mission and state policy objectives into an iterative product roadmap, balancing stakeholder priorities, technical constraints, and resource limitations in a nonprofit environment.</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-header">
+            <span class="job-org">City of Boston Mayor's Office of Housing</span>
+            <span class="job-location-date">Boston, MA · 2021–2023</span>
+          </div>
+          <div class="job-title">IT Project Manager (Consultant)</div>
+          <ul class="job-bullets">
+            <li>Served as the primary technical bridge across city departments, state agencies, federal oversight bodies, and community organizations for a $38M+ Emergency Rental Assistance program.</li>
+            <li>Managed development and operations of Salesforce-based platforms supporting case management and payment disbursement, navigating shifting federal requirements while maintaining service continuity for vulnerable users.</li>
+            <li>Identified operational and policy gaps, facilitated cross-functional working sessions to resolve them, and implemented system and process improvements that accelerated disbursement timelines and improved equity of access.</li>
+            <li>Maintained trusted relationships with technical vendors, program administrators, and community-facing partners through transparent communication and consistent follow-through.</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-header">
+            <span class="job-org">Meridian Knowledge Solutions</span>
+            <span class="job-location-date">Reston, VA · 2012–2020</span>
+          </div>
+          <div class="job-title">Senior Proposal Manager / Project Manager / Documentation Team Lead</div>
+          <ul class="job-bullets">
+            <li>As Senior Proposal Manager: directed federal and state proposal development (approximately 40/year; up to $139M per bid), coordinating cross-functional teams across strategy, compliance, technical writing, and subject matter expertise.</li>
+            <li>As Documentation Team Lead: managed two direct reports and led accessibility initiatives, ensuring WCAG 2.0 AA compliance across software products.</li>
+            <li>As Project Manager: managed software release cycles and cross-departmental collaboration to streamline delivery and improve user satisfaction.</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-header">
+            <span class="job-org">Texas Commission on Environmental Quality</span>
+            <span class="job-location-date">Austin, TX · 2009–2011</span>
+          </div>
+          <div class="job-title">Technical Writer / Documentation Specialist (Consultant)</div>
+          <ul class="job-bullets">
+            <li>Participated in and scribed Joint Application Development (JAD) sessions between technical vendor teams and state subject matter experts, facilitating requirements alignment for new environmental monitoring software.</li>
+            <li>Oversaw accessibility-compliant transition of all user and technical documentation for the state's environmental quality software systems.</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-header">
+            <span class="job-org">University of Texas at Austin</span>
+            <span class="job-location-date">Austin, TX · 2006–2009</span>
+          </div>
+          <div class="job-title">Senior Grants &amp; Contracts Specialist</div>
+          <ul class="job-bullets">
+            <li>Oversaw $15M in research and operating budgets; coordinated cross-departmental NIH and private grant applications across neuroscience labs, managing complex compliance and financial reporting requirements.</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="resume-section">
+        <span class="section-label">Advisory &amp; Civic</span>
+
+        <div class="job">
+          <div class="job-header">
+            <span class="job-org">Newton Fair and Affordable Housing Partnership</span>
+            <span class="job-location-date">Newton, MA · 2025–Present</span>
+          </div>
+          <div class="job-title">Board Member</div>
+        </div>
+
+        <div class="job">
+          <div class="job-header">
+            <span class="job-org">Elkton Community Education Center</span>
+            <span class="job-location-date">Ongoing</span>
+          </div>
+          <div class="job-title">Strategic Advisor — Grant strategy, funding evaluation, and organizational positioning</div>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+</div>
+</body>
+</html>
