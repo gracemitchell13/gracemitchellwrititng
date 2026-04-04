@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Project Management 101: What I Taught a Neuroscience Lab (and What it Taught Me)"
-date: 2026-04-01
+date: 2025-03-31
 tags:
   - Project Management
   - Productivity
