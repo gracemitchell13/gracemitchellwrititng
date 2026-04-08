@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fieldbook — Project Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+  <style>
+    /* ── TOKENS ─────────────────────────────────────── */
+    :root {
+      --ink:       #1e1a14;
+      --ink-mid:   #4a4438;
+      --ink-soft:  #7a7060;
+      --ink-faint: #b0a898;
+      --parchment: #f5f1ea;
+      --paper:     #faf8f4;
+      --rule:      #e2ddd5;
+      --rule-dark: #c8c0b4;
+
+      --build:     #3b5e4a;
+      --build-bg:  #eaf1ec;
+      --job:       #2d4a6b;
+      --job-bg:    #e8eef6;
+      --vol:       #6b3d2d;
+      --vol-bg:    #f5ece8;
+      --write:     #5a4a1e;
+      --write-bg:  #f5f0e2;
+      --personal:  #4a3560;
+      --personal-bg: #eeeaf5;
+
+      --surgery:   #8b2e2e;
+      --surgery-bg:#fdf0f0;
+
+      --ff-display: 'Playfair Display', Georgia, serif;
+      --ff-body:    'Source Serif 4', Georgia, serif;
+      --ff-mono:    'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--parchment);
+      color: var(--ink);
+      font-family: var(--ff-body);
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ─────────────────────────────────────── */
+    header {
+      background: var(--ink);
+      color: var(--parchment);
+      padding: 20px 32px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+    }
+
+    .header-top {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .wordmark {
+      font-family: var(--ff-display);
+      font-style: italic;
+      font-size: 22px;
+      letter-spacing: 0.01em;
+      color: var(--parchment);
+    }
+    .wordmark span {
+      font-style: normal;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-left: 10px;
+    }
+
+    .surgery-pill {
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      background: var(--surgery);
+      color: #fde8e8;
+      padding: 4px 10px;
+      border-radius: 3px;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── TABS ───────────────────────────────────────── */
+    .tabs {
+      display: flex;
+      gap: 0;
+    }
+
+    .tab {
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      padding: 10px 20px;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      border-bottom: 3px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+    .tab:hover { color: var(--parchment); }
+    .tab.active {
+      color: var(--parchment);
+      border-bottom-color: var(--parchment);
+    }
+
+    /* ── MAIN ───────────────────────────────────────── */
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+
+    .view { display: none; }
+    .view.active { display: block; }
+
+    .view-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--rule-dark);
+    }
+    .view-title {
+      font-family: var(--ff-display);
+      font-size: 26px;
+      font-weight: 500;
+    }
+    .view-sub {
+      font-size: 13px;
+      color: var(--ink-soft);
+      font-style: italic;
+    }
+
+    /* ── ADD BUTTON ─────────────────────────────────── */
+    .btn-add {
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--ink);
+      color: var(--parchment);
+      border: none;
+      padding: 9px 16px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .btn-add:hover { opacity: 0.8; }
+
+    /* ── CATEGORY FILTER ────────────────────────────── */
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .filter-chip {
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--rule-dark);
+      background: var(--paper);
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .filter-chip.active, .filter-chip:hover {
+      background: var(--ink);
+      color: var(--parchment);
+      border-color: var(--ink);
+    }
+
+    /* ── CARDS ──────────────────────────────────────── */
+    .cards { display: grid; gap: 14px; }
+
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      border-left: 4px solid var(--rule-dark);
+      padding: 16px 18px;
+      transition: box-shadow 0.15s;
+      position: relative;
+    }
+    .card:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+
+    .card[data-cat="Build"]     { border-left-color: var(--build); }
+    .card[data-cat="Job Search"] { border-left-color: var(--job); }
+    .card[data-cat="Volunteer"] { border-left-color: var(--vol); }
+    .card[data-cat="Writing"]   { border-left-color: var(--write); }
+    .card[data-cat="Personal"]  { border-left-color: var(--personal); }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .card-name {
+      font-family: var(--ff-display);
+      font-size: 17px;
+      font-weight: 500;
+      line-height: 1.3;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .card-btn {
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 2px;
+      border: 1px solid var(--rule-dark);
+      background: transparent;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+    .card-btn:hover { background: var(--ink); color: var(--parchment); border-color: var(--ink); }
+    .card-btn.delete:hover { background: var(--surgery); border-color: var(--surgery); }
+
+    .card-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .cat-pill {
+      font-family: var(--ff-mono);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 2px;
+      font-weight: 500;
+    }
+    .cat-pill.Build     { background: var(--build-bg);    color: var(--build); }
+    .cat-pill.Job       { background: var(--job-bg);      color: var(--job); }
+    .cat-pill.Volunteer { background: var(--vol-bg);      color: var(--vol); }
+    .cat-pill.Writing   { background: var(--write-bg);    color: var(--write); }
+    .cat-pill.Personal  { background: var(--personal-bg); color: var(--personal); }
+
+    .status-pill {
+      font-family: var(--ff-mono);
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 2px;
+      background: var(--parchment);
+      color: var(--ink-soft);
+      border: 1px solid var(--rule);
+    }
+
+    .card-field {
+      font-size: 13px;
+      color: var(--ink-mid);
+      margin-bottom: 5px;
+      display: flex;
+      gap: 6px;
+    }
+    .card-field-label {
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      min-width: 90px;
+      padding-top: 1px;
+      flex-shrink: 0;
+    }
+
+    .surgery-target {
+      background: var(--surgery-bg);
+      border: 1px solid #e8c5c5;
+      border-radius: 3px;
+      padding: 6px 10px;
+      margin-top: 8px;
+      font-size: 13px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+    .surgery-target .card-field-label { color: var(--surgery); }
+
+    .comeback-badge {
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      font-weight: 500;
+      background: var(--ink);
+      color: var(--parchment);
+      padding: 2px 8px;
+      border-radius: 2px;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── MODAL ──────────────────────────────────────── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(30,26,20,0.55);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--paper);
+      border: 1px solid var(--rule-dark);
+      border-radius: 6px;
+      padding: 28px 28px 24px;
+      width: 100%;
+      max-width: 580px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-title {
+      font-family: var(--ff-display);
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .form-group { margin-bottom: 14px; }
+    .form-label {
+      display: block;
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 5px;
+    }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--rule-dark);
+      border-radius: 3px;
+      background: var(--parchment);
+      color: var(--ink);
+      font-family: var(--ff-body);
+      font-size: 14px;
+      transition: border-color 0.15s;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--ink);
+    }
+    .form-textarea { resize: vertical; min-height: 60px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--rule);
+    }
+    .btn-cancel {
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      border: 1px solid var(--rule-dark);
+      background: transparent;
+      color: var(--ink-soft);
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .btn-save {
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      border: none;
+      background: var(--ink);
+      color: var(--parchment);
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .btn-save:hover { opacity: 0.85; }
+
+    /* ── PRE-SURGERY VIEW ───────────────────────────── */
+    .countdown-banner {
+      background: var(--surgery-bg);
+      border: 1px solid #e0bbbb;
+      border-radius: 4px;
+      padding: 14px 18px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .countdown-days {
+      font-family: var(--ff-display);
+      font-size: 42px;
+      font-weight: 700;
+      color: var(--surgery);
+      line-height: 1;
+    }
+    .countdown-label {
+      font-size: 13px;
+      color: var(--ink-mid);
+    }
+    .countdown-label strong {
+      display: block;
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--surgery);
+      margin-bottom: 2px;
+    }
+
+    /* ── POST-SURGERY VIEW ──────────────────────────── */
+    .comeback-group { margin-bottom: 28px; }
+    .comeback-group-label {
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    /* ── EMPTY STATE ────────────────────────────────── */
+    .empty {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--ink-soft);
+      font-style: italic;
+      font-size: 15px;
+    }
+
+    /* ── LOADING ────────────────────────────────────── */
+    .loading {
+      text-align: center;
+      padding: 48px;
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--ink-faint);
+    }
+
+    @media (max-width: 600px) {
+      header { padding: 16px 16px 0; }
+      main { padding: 20px 14px 60px; }
+      .form-row { grid-template-columns: 1fr; }
+      .tab { padding: 10px 12px; font-size: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ────────────────────────────────────────── -->
+<header>
+  <div class="header-top">
+    <div class="wordmark">Fieldbook <span>Project Tracker</span></div>
+    <div class="surgery-pill" id="surgeryPill">Surgery: Apr 30</div>
+  </div>
+  <nav class="tabs">
+    <button class="tab active" data-view="now">Now</button>
+    <button class="tab" data-view="presurgery">Before Apr 30</button>
+    <button class="tab" data-view="postsurgery">After Surgery</button>
+  </nav>
+</header>
+
+<!-- ── MAIN ──────────────────────────────────────────── -->
+<main>
+
+  <!-- NOW VIEW -->
+  <div class="view active" id="view-now">
+    <div class="view-header">
+      <div>
+        <div class="view-title">Everything Active</div>
+        <div class="view-sub">All projects and commitments in play</div>
+      </div>
+      <button class="btn-add" id="btnAdd">+ Add Item</button>
+    </div>
+    <div class="filters" id="filters">
+      <button class="filter-chip active" data-filter="All">All</button>
+      <button class="filter-chip" data-filter="Build">Build</button>
+      <button class="filter-chip" data-filter="Job Search">Job Search</button>
+      <button class="filter-chip" data-filter="Volunteer">Volunteer</button>
+      <button class="filter-chip" data-filter="Writing">Writing</button>
+      <button class="filter-chip" data-filter="Personal">Personal</button>
+    </div>
+    <div class="cards" id="cards-now">
+      <div class="loading">Loading…</div>
+    </div>
+  </div>
+
+  <!-- PRE-SURGERY VIEW -->
+  <div class="view" id="view-presurgery">
+    <div class="view-header">
+      <div>
+        <div class="view-title">Before April 30</div>
+        <div class="view-sub">Where each thing needs to be when you go under</div>
+      </div>
+    </div>
+    <div class="countdown-banner">
+      <div class="countdown-days" id="daysLeft">—</div>
+      <div class="countdown-label">
+        <strong>Days until surgery</strong>
+        Use this window. Set stopping points. Hand things off.
+      </div>
+    </div>
+    <div class="cards" id="cards-presurgery">
+      <div class="loading">Loading…</div>
+    </div>
+  </div>
+
+  <!-- POST-SURGERY VIEW -->
+  <div class="view" id="view-postsurgery">
+    <div class="view-header">
+      <div>
+        <div class="view-title">The Comeback Queue</div>
+        <div class="view-sub">Ordered by what to pick up first — when you're ready</div>
+      </div>
+    </div>
+    <div id="cards-postsurgery">
+      <div class="loading">Loading…</div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ── MODAL ──────────────────────────────────────────── -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-title" id="modalTitle">Add Item</div>
+    <form id="itemForm">
+      <input type="hidden" id="itemId" />
+
+      <div class="form-group">
+        <label class="form-label" for="fName">Name *</label>
+        <input class="form-input" id="fName" type="text" required placeholder="What is this?" />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="fCat">Category *</label>
+          <select class="form-select" id="fCat" required>
+            <option value="">— select —</option>
+            <option>Build</option>
+            <option>Job Search</option>
+            <option>Volunteer</option>
+            <option>Writing</option>
+            <option>Personal</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="fStatus">Status</label>
+          <input class="form-input" id="fStatus" type="text" placeholder="e.g. Active / Paused / Waiting" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="fNext">Next Action</label>
+        <input class="form-input" id="fNext" type="text" placeholder="The very next thing to do" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="fSurgeryTarget">Pre-Surgery Target State</label>
+        <input class="form-input" id="fSurgeryTarget" type="text" placeholder="Where does this need to be on Apr 29?" />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="fComeback">Comeback Priority (1–5)</label>
+          <select class="form-select" id="fComeback">
+            <option value="">—</option>
+            <option value="1">1 — Pick up immediately</option>
+            <option value="2">2 — First week back</option>
+            <option value="3">3 — Second week back</option>
+            <option value="4">4 — When you feel like it</option>
+            <option value="5">5 — Reassess then</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="fDeadline">Hard Deadline (if any)</label>
+          <input class="form-input" id="fDeadline" type="text" placeholder="e.g. November 2026" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="fNotes">Notes</label>
+        <textarea class="form-textarea" id="fNotes" placeholder="Anything else worth capturing"></textarea>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel" id="btnCancel">Cancel</button>
+        <button type="submit" class="btn-save">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ── FIREBASE + APP ─────────────────────────────────── -->
+<script>
+  // ──────────────────────────────────────────────────────
+  // PASTE YOUR FIREBASE CONFIG HERE
+  // (from Firebase Console → Project Settings → Your apps)
+  // ──────────────────────────────────────────────────────
+  const firebaseConfig = {
+    apiKey:            "AIzaSyBuslisfKpwIJDeHy27ZlAg6brnXAhVTVg",
+    authDomain:        "project-tracker-e86e2.firebaseapp.com",
+    projectId:         "project-tracker-e86e2",
+    storageBucket:     "project-tracker-e86e2.firebasestorage.app",
+    messagingSenderId: "950765645671",
+    appId:             "1:950765645671:web:2442d16eef6b85b6a349c2"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const col = db.collection('tracker_items');
+
+  // ── STATE ──────────────────────────────────────────────
+  let items = [];
+  let activeFilter = 'All';
+  let editingId = null;
+
+  // ── SURGERY DATE ───────────────────────────────────────
+  const SURGERY = new Date('2026-04-30');
+  function updateCountdown() {
+    const now = new Date();
+    const diff = Math.ceil((SURGERY - now) / 86400000);
+    const el = document.getElementById('daysLeft');
+    if (diff > 0) el.textContent = diff;
+    else if (diff === 0) el.textContent = 'Today';
+    else el.textContent = 'Past';
+  }
+  updateCountdown();
+
+  // ── FIRESTORE ─────────────────────────────────────────
+  function loadItems() {
+    col.orderBy('createdAt', 'asc').onSnapshot(snap => {
+      items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderAll();
+    });
+  }
+
+  async function saveItem(data) {
+    if (editingId) {
+      await col.doc(editingId).update({ ...data, updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
+    } else {
+      await col.add({ ...data, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+    }
+  }
+
+  async function deleteItem(id) {
+    if (confirm('Delete this item?')) await col.doc(id).delete();
+  }
+
+  // ── RENDER ─────────────────────────────────────────────
+  function catClass(cat) {
+    return cat === 'Job Search' ? 'Job' : cat;
+  }
+
+  function buildCard(item, showSurgery = false, showComeback = false) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.cat = item.category;
+
+    const catCls = catClass(item.category);
+
+    card.innerHTML = `
+      <div class="card-top">
+        <div class="card-name">${esc(item.name)}</div>
+        <div class="card-actions">
+          <button class="card-btn edit" data-id="${item.id}">Edit</button>
+          <button class="card-btn delete" data-id="${item.id}">✕</button>
+        </div>
+      </div>
+      <div class="card-meta">
+        <span class="cat-pill ${catCls}">${esc(item.category)}</span>
+        ${item.status ? `<span class="status-pill">${esc(item.status)}</span>` : ''}
+        ${item.deadline ? `<span class="status-pill" style="border-color:#c0a060;color:#7a5a10;">⚑ ${esc(item.deadline)}</span>` : ''}
+        ${showComeback && item.comebackPriority ? `<span class="comeback-badge">P${item.comebackPriority}</span>` : ''}
+      </div>
+      ${item.nextAction ? `<div class="card-field"><span class="card-field-label">Next action</span><span>${esc(item.nextAction)}</span></div>` : ''}
+      ${item.notes ? `<div class="card-field"><span class="card-field-label">Notes</span><span>${esc(item.notes)}</span></div>` : ''}
+      ${showSurgery && item.surgeryTarget ? `
+        <div class="surgery-target">
+          <span class="card-field-label">By Apr 29</span>
+          <span>${esc(item.surgeryTarget)}</span>
+        </div>` : ''}
+    `;
+
+    card.querySelector('.edit').addEventListener('click', () => openEdit(item));
+    card.querySelector('.delete').addEventListener('click', () => deleteItem(item.id));
+    return card;
+  }
+
+  function renderNow() {
+    const el = document.getElementById('cards-now');
+    el.innerHTML = '';
+    const filtered = activeFilter === 'All'
+      ? items
+      : items.filter(i => i.category === activeFilter);
+    if (!filtered.length) { el.innerHTML = '<div class="empty">Nothing here yet. Add your first item.</div>'; return; }
+    filtered.forEach(i => el.appendChild(buildCard(i)));
+  }
+
+  function renderPreSurgery() {
+    const el = document.getElementById('cards-presurgery');
+    el.innerHTML = '';
+    const sorted = [...items].sort((a, b) => (a.comebackPriority || 9) - (b.comebackPriority || 9));
+    if (!sorted.length) { el.innerHTML = '<div class="empty">Add items and set pre-surgery targets.</div>'; return; }
+    sorted.forEach(i => el.appendChild(buildCard(i, true, false)));
+  }
+
+  function renderPostSurgery() {
+    const el = document.getElementById('cards-postsurgery');
+    el.innerHTML = '';
+    const withPriority = [...items].filter(i => i.comebackPriority);
+    const without = items.filter(i => !i.comebackPriority);
+
+    const groups = { '1': [], '2': [], '3': [], '4': [], '5': [] };
+    withPriority.forEach(i => groups[i.comebackPriority].push(i));
+
+    const labels = {
+      '1': 'Priority 1 — Pick up immediately',
+      '2': 'Priority 2 — First week back',
+      '3': 'Priority 3 — Second week back',
+      '4': 'Priority 4 — When you feel like it',
+      '5': 'Priority 5 — Reassess then'
+    };
+
+    let anyCards = false;
+    Object.keys(groups).forEach(p => {
+      if (!groups[p].length) return;
+      anyCards = true;
+      const grp = document.createElement('div');
+      grp.className = 'comeback-group';
+      grp.innerHTML = `<div class="comeback-group-label">${labels[p]}</div>`;
+      const cards = document.createElement('div');
+      cards.className = 'cards';
+      groups[p].forEach(i => cards.appendChild(buildCard(i, false, true)));
+      grp.appendChild(cards);
+      el.appendChild(grp);
+    });
+
+    if (without.length) {
+      anyCards = true;
+      const grp = document.createElement('div');
+      grp.className = 'comeback-group';
+      grp.innerHTML = `<div class="comeback-group-label">No priority set</div>`;
+      const cards = document.createElement('div');
+      cards.className = 'cards';
+      without.forEach(i => cards.appendChild(buildCard(i, false, false)));
+      grp.appendChild(cards);
+      el.appendChild(grp);
+    }
+
+    if (!anyCards) el.innerHTML = '<div class="empty">Set comeback priorities on your items to build the queue.</div>';
+  }
+
+  function renderAll() {
+    renderNow();
+    renderPreSurgery();
+    renderPostSurgery();
+  }
+
+  // ── FILTERS ────────────────────────────────────────────
+  document.getElementById('filters').addEventListener('click', e => {
+    const chip = e.target.closest('.filter-chip');
+    if (!chip) return;
+    activeFilter = chip.dataset.filter;
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c === chip));
+    renderNow();
+  });
+
+  // ── TABS ───────────────────────────────────────────────
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('view-' + tab.dataset.view).classList.add('active');
+    });
+  });
+
+  // ── MODAL ──────────────────────────────────────────────
+  function openAdd() {
+    editingId = null;
+    document.getElementById('modalTitle').textContent = 'Add Item';
+    document.getElementById('itemForm').reset();
+    document.getElementById('modalOverlay').classList.add('open');
+    document.getElementById('fName').focus();
+  }
+
+  function openEdit(item) {
+    editingId = item.id;
+    document.getElementById('modalTitle').textContent = 'Edit Item';
+    document.getElementById('fName').value = item.name || '';
+    document.getElementById('fCat').value = item.category || '';
+    document.getElementById('fStatus').value = item.status || '';
+    document.getElementById('fNext').value = item.nextAction || '';
+    document.getElementById('fSurgeryTarget').value = item.surgeryTarget || '';
+    document.getElementById('fComeback').value = item.comebackPriority || '';
+    document.getElementById('fDeadline').value = item.deadline || '';
+    document.getElementById('fNotes').value = item.notes || '';
+    document.getElementById('modalOverlay').classList.add('open');
+    document.getElementById('fName').focus();
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    editingId = null;
+  }
+
+  document.getElementById('btnAdd').addEventListener('click', openAdd);
+  document.getElementById('btnCancel').addEventListener('click', closeModal);
+  document.getElementById('modalOverlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  });
+
+  document.getElementById('itemForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const data = {
+      name:             document.getElementById('fName').value.trim(),
+      category:         document.getElementById('fCat').value,
+      status:           document.getElementById('fStatus').value.trim(),
+      nextAction:       document.getElementById('fNext').value.trim(),
+      surgeryTarget:    document.getElementById('fSurgeryTarget').value.trim(),
+      comebackPriority: document.getElementById('fComeback').value || null,
+      deadline:         document.getElementById('fDeadline').value.trim(),
+      notes:            document.getElementById('fNotes').value.trim(),
+    };
+    await saveItem(data);
+    closeModal();
+  });
+
+  // ── UTILS ──────────────────────────────────────────────
+  function esc(s) {
+    if (!s) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ── INIT ───────────────────────────────────────────────
+  loadItems();
+</script>
+</body>
+</html>
