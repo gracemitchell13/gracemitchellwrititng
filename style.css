@@ -257,7 +257,7 @@ nav {
 .scard-blog{--card-accent:#7A6FA8;--card-bg:#EFECF8}
 .scard-contact{--card-accent:#4A8A6C;--card-bg:#E5F2EC}
 .scard-media{--card-accent:#E07840;--card-bg:#FDF0E8}
-.scard-groundwork{--card-accent:#6B7A3E;--card-bg:#EEF1E6;opacity:.85;cursor:default;pointer-events:none}
+.scard-groundwork{--card-accent:#6B7A3E;--card-bg:#EEF1E6}
 
 /* ── CREDENTIALS STRIP ── */
 .creds-strip{
@@ -338,7 +338,8 @@ footer{
 /* Skip nav */
 .skip-nav{position:absolute;top:-100%;left:1rem;background:var(--fuchsia);color:#fff;padding:8px 16px;border-radius:0 0 8px 8px;font-size:14px;font-weight:500;text-decoration:none;z-index:1000;transition:top .1s}
 .skip-nav:focus{top:0}
-.announce-bar{background:#6B7A3E;color:#fff;text-align:center;padding:8px 1.5rem;font-size:13px;font-weight:400;letter-spacing:.01em}
+.announce-bar{background:#6B7A3E;color:#fff;text-align:center;padding:8px 1.5rem;font-size:13px;font-weight:400;letter-spacing:.01em;display:block;text-decoration:none;transition:background .15s}
+.announce-bar:hover{background:#5A6833}
 .announce-bar strong{font-weight:600}
 
 /* ── RESUME PAGE ── */
